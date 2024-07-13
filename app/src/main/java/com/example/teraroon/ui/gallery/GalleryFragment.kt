@@ -40,10 +40,12 @@ class GalleryFragment : Fragment() {
 
         val gameInst = GameActivity()
         val db = DbHelper(gameInst.getContext(), null)
-        val user = gameInst.whoUser()
 
-        count = db.getCount(user.login, user.pass)
-        progress = db.getProgress(user.login, user.pass)
+        val login = arguments?.getString("login")!!
+        val pass = arguments?.getString("pass")!!
+
+        count = db.getCount(login, pass)
+        progress = db.getProgress(login, pass)
         changeGoal()
 
         if (currentGoal == count)
@@ -56,7 +58,7 @@ class GalleryFragment : Fragment() {
             if (count < currentGoal - 1) {
 
                 if(count%20 == 0){
-                    db.setCount(user.login, user.pass, count)
+                    db.setCount(login, pass, count)
                 }
                 count += 1
                 binding.textView.text = "Кол-во нажатий: $count"
@@ -75,8 +77,8 @@ class GalleryFragment : Fragment() {
                 else {
                     Snackbar.make(requireView(), "Ты совершаешь глупыую ошибку нажимая сюда", Snackbar.LENGTH_LONG).show()
                     if(count%10 == 0){
-                        db.setCount(user.login, user.pass, count)
-                        db.setProgress(user.login, user.pass, progress)
+                        db.setCount(login, pass, count)
+                        db.setProgress(login, pass, progress)
                         Snackbar.make(requireView(), "Ваш прогресс и нажатия успешно сохранены", Snackbar.LENGTH_LONG).show()
                     }
                 }
@@ -89,7 +91,7 @@ class GalleryFragment : Fragment() {
                     if (count == currentGoal) {
                         progress += 1
                         binding.splitMessage.text = "Еще нажимай!"
-                        db.setProgress(user.login, user.pass, progress)
+                        db.setProgress(login, pass, progress)
                         changeGoal()
                     }
                     if (progress == 12)
@@ -102,7 +104,7 @@ class GalleryFragment : Fragment() {
                     binding.splitMessage.text = "Еще нажимай!"
                     binding.textView.text = "Кол-во нажатий: $count"
                     progress += 1
-                    db.setProgress(user.login, user.pass, progress)
+                    db.setProgress(login, pass, progress)
                     changeGoal()
                     Toast.makeText(gameInst.getContext(), "Поздравляю! \n У вас открылась способность делить! \n Отныне нажимай на эту кнопку, \n когда захочешь!", Toast.LENGTH_LONG).show()
                 }
@@ -111,7 +113,7 @@ class GalleryFragment : Fragment() {
                     binding.splitMessage.text = "Еще нажимай!"
                     binding.textView.text = "Кол-во нажатий: $count"
                     progress += 1
-                    db.setProgress(user.login, user.pass, progress)
+                    db.setProgress(login, pass, progress)
                     changeGoal()
                 }
                 if ((progress == 2)&&(count == 36)) {
@@ -119,7 +121,7 @@ class GalleryFragment : Fragment() {
                     binding.splitMessage.text = "Еще нажимай!"
                     binding.textView.text = "Кол-во нажатий: $count"
                     progress += 1
-                    db.setProgress(user.login, user.pass, progress)
+                    db.setProgress(login, pass, progress)
                     changeGoal()
                     Toast.makeText(gameInst.getContext(), "Ой-ой-ой!", Toast.LENGTH_SHORT).show()
                 }
@@ -128,7 +130,7 @@ class GalleryFragment : Fragment() {
                     binding.splitMessage.text = "Еще нажимай!"
                     binding.textView.text = "Кол-во нажатий: $count"
                     progress += 2
-                    db.setProgress(user.login, user.pass, progress)
+                    db.setProgress(login, pass, progress)
                     changeGoal()
                     Toast.makeText(gameInst.getContext(), "Ты разгадал тайну! Теперь ты как сыр в масле!", Toast.LENGTH_LONG).show()
                 }

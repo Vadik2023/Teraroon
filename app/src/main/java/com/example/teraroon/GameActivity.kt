@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.teraroon.databinding.ActivityGameBinding
+import com.example.teraroon.ui.home.HomeFragment
 
 class GameActivity : AppCompatActivity() {
 
@@ -32,6 +33,18 @@ class GameActivity : AppCompatActivity() {
         login = intent.getStringExtra("login")!!
         pass = intent.getStringExtra("pass")!!
 
+        val bundle = Bundle().apply {
+            putString("login", login)
+            putString("pass", pass)
+        }
+
+        val homeFragment = HomeFragment().apply {
+            arguments = bundle
+        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment_content_game, homeFragment)
+            .commit()
+
         binding.appBarGame.fab.setOnClickListener { view ->
             Snackbar.make(view, "Чё не понятно — спрашивай у разраба!", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
@@ -44,7 +57,7 @@ class GameActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.virus_game, R.id.molecule_game, R.id.add_new_brawler
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

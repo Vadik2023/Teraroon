@@ -17,6 +17,8 @@ class SlideshowFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private var scale: Int = 0
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

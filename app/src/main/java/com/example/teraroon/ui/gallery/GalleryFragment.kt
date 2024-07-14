@@ -25,9 +25,9 @@ class GalleryFragment : Fragment() {
     private var count: Int = 0
     private var progress: Int = 0
     private var currentGoal: Int = 0
-    private var login: String = ""
-    private var pass: String = ""
-    private var db: DbHelper? = null
+    private lateinit var login: String
+    private lateinit var pass: String
+    private lateinit var db: DbHelper
 
 
     override fun onCreateView(
@@ -44,11 +44,11 @@ class GalleryFragment : Fragment() {
 
         val gameInst = GameActivity()
         db = DbHelper(gameInst.getContext(), null)
-        val login = arguments?.getString("login")!!
-        val pass = arguments?.getString("pass")!!
+        login = arguments?.getString("login")!!
+        pass = arguments?.getString("pass")!!
 
-        count = db!!.getCount(login, pass)
-        progress = db!!.getProgress(login, pass)
+        count = db.getCount(login, pass)
+        progress = db.getProgress(login, pass)
         changeGoal()
 
         if (currentGoal == count)
@@ -60,9 +60,6 @@ class GalleryFragment : Fragment() {
         binding.clickButton.setOnClickListener {
             if (count < currentGoal - 1) {
 
-                if(count%20 == 0){
-                    db!!.setCount(login, pass, count)
-                }
                 count += 1
                 binding.textView.text = "Кол-во нажатий: $count"
             }
@@ -80,8 +77,8 @@ class GalleryFragment : Fragment() {
                 else {
                     Snackbar.make(requireView(), "Ты совершаешь глупыую ошибку нажимая сюда", Snackbar.LENGTH_LONG).show()
                     if(count%10 == 0){
-                        db!!.setCount(login, pass, count)
-                        db!!.setProgress(login, pass, progress)
+                        db.setCount(login, pass, count)
+                        db.setProgress(login, pass, progress)
                         Snackbar.make(requireView(), "Ваш прогресс и нажатия успешно сохранены", Snackbar.LENGTH_LONG).show()
                     }
                 }
@@ -94,7 +91,7 @@ class GalleryFragment : Fragment() {
                     if (count == currentGoal) {
                         progress += 1
                         binding.splitMessage.text = "Еще нажимай!"
-                        db!!.setProgress(login, pass, progress)
+                        db.setProgress(login, pass, progress)
                         changeGoal()
                     }
                     if (progress == 12)
@@ -107,7 +104,7 @@ class GalleryFragment : Fragment() {
                     binding.splitMessage.text = "Еще нажимай!"
                     binding.textView.text = "Кол-во нажатий: $count"
                     progress += 1
-                    db!!.setProgress(login, pass, progress)
+                    db.setProgress(login, pass, progress)
                     changeGoal()
                     Toast.makeText(gameInst.getContext(), "Поздравляю! \n У вас открылась способность делить! \n Отныне нажимай на эту кнопку, \n когда захочешь!", Toast.LENGTH_LONG).show()
                 }
@@ -116,7 +113,7 @@ class GalleryFragment : Fragment() {
                     binding.splitMessage.text = "Еще нажимай!"
                     binding.textView.text = "Кол-во нажатий: $count"
                     progress += 1
-                    db!!.setProgress(login, pass, progress)
+                    db.setProgress(login, pass, progress)
                     changeGoal()
                 }
                 if ((progress == 2)&&(count == 36)) {
@@ -124,7 +121,7 @@ class GalleryFragment : Fragment() {
                     binding.splitMessage.text = "Еще нажимай!"
                     binding.textView.text = "Кол-во нажатий: $count"
                     progress += 1
-                    db!!.setProgress(login, pass, progress)
+                    db.setProgress(login, pass, progress)
                     changeGoal()
                     Toast.makeText(gameInst.getContext(), "Ой-ой-ой!", Toast.LENGTH_SHORT).show()
                 }
@@ -133,7 +130,6 @@ class GalleryFragment : Fragment() {
                     binding.splitMessage.text = "Еще нажимай!"
                     binding.textView.text = "Кол-во нажатий: $count"
                     progress += 2
-                    db!!.setProgress(login, pass, progress)
                     changeGoal()
                     Toast.makeText(gameInst.getContext(), "Ты разгадал тайну! Теперь ты как сыр в масле!", Toast.LENGTH_LONG).show()
                 }
@@ -185,8 +181,8 @@ class GalleryFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        db!!.setProgress(login, pass, progress)
-        db!!.setCount(login, pass, count)
+        db.setProgress(login, pass, progress)
+        db.setCount(login, pass, count)
         super.onDestroyView()
         _binding = null
     }

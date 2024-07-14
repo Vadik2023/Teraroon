@@ -13,14 +13,13 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.teraroon.databinding.ActivityGameBinding
+import com.example.teraroon.ui.gallery.GalleryFragment
 import com.example.teraroon.ui.home.HomeFragment
 
 class GameActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityGameBinding
-    private var login: String = ""
-    private var pass: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,15 +29,15 @@ class GameActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarGame.toolbar)
 
-        login = intent.getStringExtra("login")!!
-        pass = intent.getStringExtra("pass")!!
+        val login = intent.getStringExtra("login")!!
+        val pass = intent.getStringExtra("pass")!!
 
         val bundle = Bundle().apply {
             putString("login", login)
             putString("pass", pass)
         }
 
-        val homeFragment = HomeFragment().apply {
+        val homeFragment = GalleryFragment().apply {
             arguments = bundle
         }
         supportFragmentManager.beginTransaction()
@@ -62,10 +61,6 @@ class GameActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-    }
-
-    fun whoUser(): User {
-        return User(login, "", pass)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

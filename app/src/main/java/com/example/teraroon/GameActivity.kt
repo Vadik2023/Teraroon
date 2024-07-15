@@ -3,6 +3,7 @@ package com.example.teraroon
 import android.content.Context
 import android.os.Bundle
 import android.view.Menu
+import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -14,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.teraroon.databinding.ActivityGameBinding
 import com.example.teraroon.ui.gallery.GalleryFragment
+import com.example.teraroon.ui.gallery.GalleryViewModel
 
 class GameActivity : AppCompatActivity() {
 
@@ -28,9 +30,12 @@ class GameActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarGame.toolbar)
 
-        val login = intent.getStringExtra("login")
-        val pass = intent.getStringExtra("pass")
+        val login = intent.getStringExtra("login")!!
+        val pass = intent.getStringExtra("pass")!!
 
+        val galleryViewModel: GalleryViewModel by viewModels()
+        galleryViewModel.login.value = login
+        galleryViewModel.pass.value = pass
 
         binding.appBarGame.fab.setOnClickListener { view ->
             Snackbar.make(view, "Чё не понятно — спрашивай у разраба!", Snackbar.LENGTH_LONG)

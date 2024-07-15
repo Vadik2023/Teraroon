@@ -25,8 +25,6 @@ class GalleryFragment : Fragment() {
     private var count: Int = 0
     private var progress: Int = 0
     private var currentGoal: Int = 0
-    private lateinit var login: String
-    private lateinit var pass: String
     private lateinit var db: DbHelper
 
 
@@ -36,16 +34,26 @@ class GalleryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val galleryViewModel =
-            ViewModelProvider(this).get(GalleryViewModel::class.java)
+            ViewModelProvider(this)[GalleryViewModel::class.java]
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-
         val gameInst = GameActivity()
         db = DbHelper(gameInst.getContext(), null)
-        login = arguments?.getString("login")!!
-        pass = arguments?.getString("pass")!!
+
+        var login = ""
+        var pass = ""
+
+
+        galleryViewModel._login.observe(viewLifecycleOwner) {
+            login = it
+        }
+
+        galleryViewModel._pass.observe(viewLifecycleOwner) {
+            pass = it
+        }
+
 
         count = db.getCount(login, pass)
         progress = db.getProgress(login, pass)
@@ -181,8 +189,8 @@ class GalleryFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        db.setProgress(login, pass, progress)
-        db.setCount(login, pass, count)
+        //db.setProgress(login, pass, progress)
+        //db.setCount(login, pass, count)
         super.onDestroyView()
         _binding = null
     }

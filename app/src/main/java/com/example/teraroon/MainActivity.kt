@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             val pass = userPass.text.toString().trim()
 
             if (login == "" || pass == "")
-                Toast.makeText(this, "Fill all fields", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "fields all blanks", Toast.LENGTH_SHORT).show()
             else {
                 val db = DbHelper(this, null)
                 val isUserSign = db.getUser(login, pass)

@@ -33,9 +33,16 @@ class GameActivity : AppCompatActivity() {
         val login = intent.getStringExtra("login")!!
         val pass = intent.getStringExtra("pass")!!
 
-        val galleryViewModel: GalleryViewModel by viewModels()
-        galleryViewModel.login.value = login
-        galleryViewModel.pass.value = pass
+        val bundle = Bundle()
+        bundle.putString("login", login)
+        bundle.putString("pass", pass)
+
+        val galleryFragment = GalleryFragment()
+        galleryFragment.arguments = bundle
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.nav_host_fragment_content_game , galleryFragment)
+            .commit()
 
         binding.appBarGame.fab.setOnClickListener { view ->
             Snackbar.make(view, "Чё не понятно — спрашивай у разраба!", Snackbar.LENGTH_LONG)
@@ -60,10 +67,6 @@ class GameActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.game, menu)
         return true
-    }
-
-    fun getContext(): Context {
-        return this
     }
 
     override fun onSupportNavigateUp(): Boolean {

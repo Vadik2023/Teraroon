@@ -55,7 +55,7 @@ class DbHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?)
     fun getCount(login: String, pass: String): Int {
         val db = this.readableDatabase
 
-        val result = db.rawQuery("SELECT count FROM users WHERE login = '$login' AND pass = '$pass'", null)
+        val result = db.rawQuery("SELECT * FROM users WHERE login = '$login' AND pass = '$pass'", null)
         val count = result.getInt(result.getColumnIndexOrThrow("count"))
 
         db.close()

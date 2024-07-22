@@ -56,6 +56,7 @@ class DbHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?)
         val db = this.readableDatabase
 
         val result = db.rawQuery("SELECT * FROM users WHERE login = '$login' AND pass = '$pass'", null)
+        result.moveToFirst()
         val count = result.getInt(result.getColumnIndexOrThrow("count"))
 
         db.close()
@@ -68,6 +69,7 @@ class DbHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?)
         val db = this.writableDatabase
 
         val result = db.rawQuery("SELECT id FROM users WHERE login = '$login' AND pass = '$pass'", null)
+        result.moveToFirst()
         val id = result.getInt(result.getColumnIndexOrThrow("id"))
 
         val sql = "UPDATE user SET count = ? WHERE id = ?"
@@ -82,6 +84,7 @@ class DbHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?)
         val db = this.readableDatabase
 
         val result = db.rawQuery("SELECT suc FROM users WHERE login = '$login' AND pass = '$pass'", null)
+        result.moveToFirst()
         val progress = result.getInt(result.getColumnIndexOrThrow("suc"))
 
         db.close()
@@ -94,6 +97,7 @@ class DbHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?)
         val db = this.writableDatabase
 
         val result = db.rawQuery("SELECT id FROM users WHERE login = '$login' AND pass = '$pass'", null)
+        result.moveToFirst()
         val id = result.getInt(result.getColumnIndexOrThrow("id"))
 
         val sql = "UPDATE user SET suc = ? WHERE id = ?"
